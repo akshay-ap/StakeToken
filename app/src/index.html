@@ -11,13 +11,18 @@
   </style>
   <body>
     <h1>Stake App</h1>
-    <p>Contract has <strong class="balance">loading...</strong> Ocean</p>
-
+    <p>Contract has <strong class="contract_balance">loading...</strong> Ocean</p>
+	<br/>
+    <p>Owner has <strong class="user_balance">loading...</strong> Ocean</p>
     <label for="amount">Amount:</label>
     <input type="text" id="amount" placeholder="e.g. 95" />
 
-    <button onclick="App.sendCoin()">Send Ocean</button>
-    <button onclick="App.getCoin()">Get Ocean</button>
+    <button onclick="App.sendToken()">Send Ocean</button>
+
+    <br/>
+    <input type="text" id="get_amount" placeholder="e.g. 95" />
+    <button onclick="App.getToken()">Get Ocean</button>
+
     <p id="status"></p>
     <p>
       <strong>Hint:</strong> open the browser developer console to view any
@@ -26,3 +31,4 @@
     <script src="index.js"></script>
   </body>
 </html>
+

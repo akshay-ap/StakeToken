@@ -28,25 +28,47 @@ const App = {
     },
 
     refreshBalance: async function () {
-        const {balanceOfOwner} = this.meta.methods;
-        const balance = await balanceOfOwner().call();
+        const {balanceOfOwner, balanceOf} = this.meta.methods;
 
-        const balanceElement = document.getElementsByClassName("balance")[0];
+        const balance = await balanceOfOwner().call();
+        const balanceElement = document.getElementsByClassName("contract_balance")[0];
         balanceElement.innerHTML = balance;
+
+        const userBalance = await balanceOf(this.account).call();
+        const userbalanceElement = document.getElementsByClassName("user_balance")[0];
+        userbalanceElement.innerHTML = userBalance;
+
     },
 
-    sendCoin: async function () {
+    sendToken: async function () {
         const amount = parseInt(document.getElementById("amount").value);
 
         this.setStatus("Initiating transaction... (please wait)");
 
         const {sendOceans} = this.meta.methods;
-        console.log(' this.account', this.account)
+        console.log('this.account', this.account)
+        console.log('this.meta', this.meta)
+
         await sendOceans(amount).send({from: this.account});
 
         this.setStatus("Transaction complete!");
         this.refreshBalance();
     },
+
+    getToken: async function () {
+        const amount = parseInt(document.getElementById("get_amount").value);
+
+        this.setStatus("Initiating transaction... (please wait)");
+
+        const {getOceans} = this.meta.methods;
+        console.log(' this.account', this.account)
+        await getOceans(amount).send({from: this.account});
+
+        this.setStatus("Transaction complete!");
+        this.refreshBalance();
+    },
+
+    approve: async function () {},
 
     setStatus: function (message) {
         const status = document.getElementById("status");

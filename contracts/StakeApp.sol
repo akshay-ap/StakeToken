@@ -6,6 +6,8 @@ import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 contract StakeApp {
     IERC20 private stakingToken;
 
+    mapping(address => uint)private balances;
+
     constructor(address tokenAddress)public {
         stakingToken = IERC20(address(tokenAddress));
     }
@@ -14,14 +16,25 @@ contract StakeApp {
         return stakingToken.balanceOf(address(this));
     }
 
-    event YayIReceivedTokens(uint256 amount, address fromAccount, uint256 totalBalance);
+    function balanceOf(address _address)external view returns(uint) {
+        return balances[_address];
+    }
+
+    event ReceivedTokens(uint256 amount, address fromAccount);
 
     function sendOceans(uint256 _amount)external payable {
         stakingToken.transferFrom(msg.sender, address(this), _amount);
-        emit YayIReceivedTokens(_amount, msg.sender, stakingToken.balanceOf(address(this)));
+        balances[msg.sender] += _amount;
+        balances[address(this)] += _amount;
+        emit ReceivedTokens(_amount, msg.sender);
     }
 
-    function getOceans(uint256 _amount)external payable {
+    function getOceans(uint _amount)external {
+        if (_amount > balances[msg.sender]) {
+            revert("Insufficient amount.");
+        }
+        balances[msg.sender] -= _amount;
+        balances[address(this)] -= _amount;
         stakingToken.transfer(address(msg.sender), _amount);
     }
 }
