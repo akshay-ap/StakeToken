@@ -2,15 +2,32 @@ const StakeApp = artifacts.require("StakeApp");
 
 contract("StakeApp", accounts => {
 
-    it("test", () => StakeApp.deployed().then(instance => instance.sendOceans.call(accounts[0], 10).then((res) => {
-        console.log('res', res)
-        instance.balanceOfOwner().then(val => console.log('val', val)).catch(err => console.log(err))
+    it("Initial contract balance", () => StakeApp.deployed().then(instance => instance.balanceOfOwner.call().then((res) => {
+        assert.equal(res.valueOf(), 0)
+    })));
 
-    }).catch(err => console.log(err))
-    // instance.sendOceans.call(accounts[1], 1)).then(() => {
-    // console.log('doen')
-    // })
-    ));
+
+    it("Stake did", () => StakeApp.deployed().then(instance => {
+
+        instance => instance.balanceOf.call(accounts[0]).then((res) => {
+            assert.equal(res.valueOf(), 0)
+        });
+
+        instance.addStake.call('100', 100).then((res) => {
+            assert.equal(res.valueOf(), 0)
+
+            instance.getMyStakes.call('100', 100).then((res) => {
+                console.log('res', res)
+                assert.equal(res.valueOf(), 0)
+            })
+        })
+    }));
+
+    // it("Initial send tokens to contract", () => StakeApp.deployed().then(instance => instance.sendOceans.call(accounts[0], 100).then((res) => {
+    //     assert.equal(res.valueOf(), 0)
+    //     instance.balanceOfOwner.call().then(val => assert.equal(val.toNumber(), 0));
+    // })));
+
 
     // it("should call a function that depends on a linked library", () => {
     //     let meta;

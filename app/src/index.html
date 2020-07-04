@@ -14,14 +14,20 @@
     <p>Contract has <strong class="contract_balance">loading...</strong> Ocean</p>
 	<br/>
     <p>Owner has <strong class="user_balance">loading...</strong> Ocean</p>
+	<br/>
     <label for="amount">Amount:</label>
-    <input type="text" id="amount" placeholder="e.g. 95" />
-
+    <input type="text" id="amount" placeholder="e.g. 95" /><br/>
+    <input type="text" id="stake_did"  placeholder="DID"/>
     <button onclick="App.sendToken()">Send Ocean</button>
 
     <br/>
-    <input type="text" id="get_amount" placeholder="e.g. 95" />
+    <input type="text" id="unstake_did" placeholder="e.g. DID" />
     <button onclick="App.getToken()">Get Ocean</button>
+
+	<br/>
+	<p>
+    	<p>User has <strong class="user_stakes">loading...</strong> Ocean</p>
+	</p>
 
     <p id="status"></p>
     <p>

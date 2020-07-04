@@ -1,8 +1,9 @@
 const DemoToken = artifacts.require("DemoToken");
 
 contract("DemoToken", accounts => {
-    it("should put have DemoTokens name as TCI Coin", () => DemoToken.deployed().then(instance => instance.name.call()).then(name => {
-        assert.equal(name, "TCI Coin", "Incorrect token name");
+
+    it("should put have DemoTokens name as Demo Coin", () => DemoToken.deployed().then(instance => instance.name.call()).then(name => {
+        assert.equal(name, "Demo Coin", "Incorrect token name");
     }));
 
     // it("test supply", () => DemoToken.deployed().then(instance => instance.totalSupply.call()).then(supply => {

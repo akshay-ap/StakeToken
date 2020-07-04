@@ -1,11 +1,12 @@
 import Web3 from "web3";
 import StakeApp from "../../build/contracts/StakeApp.json";
-// import IERC20 from "../../build/contracts/IERC20.json";
+import DemoToken from "../../build/contracts/DemoToken.json";
 
 const App = {
     web3: null,
     account: null,
     meta: null,
+    demotoken: null,
 
     start: async function () {
         const {web3} = this;
@@ -16,6 +17,7 @@ const App = {
             console.log('deployment', deployedNetwork)
 
             this.meta = new web3.eth.Contract(StakeApp.abi, deployedNetwork.address,);
+            this.demotoken = new web3.eth.Contract(DemoToken.abi, DemoToken.networks[networkId].address,);
             // get accounts
             const accounts = await web3.eth.getAccounts();
             console.log('accounts', accounts);
@@ -28,7 +30,7 @@ const App = {
     },
 
     refreshBalance: async function () {
-        const {balanceOfOwner, balanceOf} = this.meta.methods;
+        const {balanceOfOwner, balanceOf, getStakesOf} = this.meta.methods;
 
         const balance = await balanceOfOwner().call();
         const balanceElement = document.getElementsByClassName("contract_balance")[0];
@@ -38,31 +40,36 @@ const App = {
         const userbalanceElement = document.getElementsByClassName("user_balance")[0];
         userbalanceElement.innerHTML = userBalance;
 
+
+        const userStakes = await getStakesOf(this.account).call();
+        console.log('account stakes', userStakes)
+        const userStakesElement = document.getElementsByClassName("user_stakes")[0];
+        userStakesElement.innerHTML = userStakes;
     },
 
     sendToken: async function () {
         const amount = parseInt(document.getElementById("amount").value);
-
+        const did = parseInt(document.getElementById("stake_did").value).toString();
         this.setStatus("Initiating transaction... (please wait)");
 
-        const {sendOceans} = this.meta.methods;
+        const {addStake} = this.meta.methods;
         console.log('this.account', this.account)
         console.log('this.meta', this.meta)
 
-        await sendOceans(amount).send({from: this.account});
+        await addStake(amount, did).send({from: this.account});
 
         this.setStatus("Transaction complete!");
         this.refreshBalance();
     },
 
-    getToken: async function () {
-        const amount = parseInt(document.getElementById("get_amount").value);
+    getToken: async function () { // const amount = parseInt(document.getElementById("get_amount").value);
+        const did = parseInt(document.getElementById("unstake_did").value).toString();
 
         this.setStatus("Initiating transaction... (please wait)");
 
-        const {getOceans} = this.meta.methods;
+        const {unStake} = this.meta.methods;
         console.log(' this.account', this.account)
-        await getOceans(amount).send({from: this.account});
+        await unStake(did).send({from: this.account});
 
         this.setStatus("Transaction complete!");
         this.refreshBalance();
