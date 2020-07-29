@@ -6,7 +6,7 @@ import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 
 contract StakeApp {
     IERC20 private stakingToken;
-
+    address private owner;
     struct AssetStake {
         string assetAddress;
         uint amount;
@@ -29,6 +29,7 @@ contract StakeApp {
 
     constructor(address tokenAddress)public {
         stakingToken = IERC20(address(tokenAddress));
+        owner = msg.sender;
     }
 
     function balanceOfOwner()external view returns(uint256) {
