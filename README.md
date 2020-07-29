@@ -43,9 +43,41 @@
 
 ### Local Setup
 
+#### Solidity contract build and deployment
+
 1. Clone the repository
-2. Install gananche (Local etherum network development)
+2. Install gananche (Local ethereum network development)
 3. Link the project using `truffle-config.js` file in ganache.
-4. Run command: `npm i`
-5. Run command: `npx truffle compile`
-6. Run command: `npx truffle migrate`
+
+4. Install dependencies:
+
+   `npm i`
+
+   `sudo npm i -g truffle`
+
+5. Complie the contract(s):
+
+   `truffle compile`
+
+6. Deploy the contract on local ethereum network:
+
+   `truffle migrate`
+
+#### Webapp setup
+
+1. Clone the repository
+2. Change directory
+
+   `cd app`
+
+3. Install dependencies
+
+   `npm i`
+
+4. Run local development instance
+
+   `npm run serve`
+
+5) Open browser with metamask installed and connect to local ethereum network.
+
+6) Open link: http://localhost:8080
